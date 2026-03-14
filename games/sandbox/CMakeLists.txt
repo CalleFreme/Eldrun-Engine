@@ -15,3 +15,12 @@ set_target_properties(eldrun_sandbox PROPERTIES
     OUTPUT_NAME "eldrun_sandbox"
     FOLDER "games"
 )
+
+if(WIN32 AND TARGET SDL3-shared)
+    add_custom_command(TARGET eldrun_sandbox POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "$<TARGET_FILE:SDL3::SDL3>"
+            "$<TARGET_FILE_DIR:eldrun_sandbox>"
+    )
+endif()
+

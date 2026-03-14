@@ -8,13 +8,16 @@ namespace eldrun::platform
 {
     int Application::run()
     {
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Eldrun", "Application::run() entered.", nullptr);
+
         if (!SDL_Init(SDL_INIT_VIDEO))
         {
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_Init failed", SDL_GetError(), nullptr);
             eldrun::core::log_error(SDL_GetError());
             return 1;
         }
 
-        eldrun::core::log_info("SDL initialized.");
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Eldrun", "SDL initialized.", nullptr);
 
         SDL_Window* window = SDL_CreateWindow(
             "Eldrun Sandbox",
@@ -25,12 +28,13 @@ namespace eldrun::platform
 
         if (window == nullptr)
         {
+            SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "SDL_CreateWindow failed", SDL_GetError(), nullptr);
             eldrun::core::log_error(SDL_GetError());
             SDL_Quit();
             return 1;
         }
 
-        eldrun::core::log_info("Window created.");
+        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_INFORMATION, "Eldrun", "Window created.", window);
 
         bool running = true;
 
@@ -61,11 +65,7 @@ namespace eldrun::platform
         }
 
         SDL_DestroyWindow(window);
-        eldrun::core::log_info("Window destroyed.");
-
         SDL_Quit();
-        eldrun::core::log_info("SDL shutdown complete.");
-
         return 0;
     }
 }

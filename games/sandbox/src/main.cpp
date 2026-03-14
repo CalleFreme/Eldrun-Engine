@@ -4,8 +4,11 @@
 #include "eldrun/core/version.hpp"
 #include "eldrun/platform/application.hpp"
 
-int main()
+int main(int argc, char* argv[])
 {
+    (void)argc;
+    (void)argv;
+
     eldrun::core::log_info("Starting Eldrun Sandbox...");
     eldrun::core::log_info(eldrun::core::version_string);
 

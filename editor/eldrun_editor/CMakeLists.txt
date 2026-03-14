@@ -15,3 +15,12 @@ set_target_properties(eldrun_editor PROPERTIES
     OUTPUT_NAME "eldrun_editor"
     FOLDER "editor"
 )
+
+if(WIN32 AND TARGET SDL3-shared)
+    add_custom_command(TARGET eldrun_editor POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            $<TARGET_FILE:SDL3::SDL3>
+            $<TARGET_FILE_DIR:eldrun_editor>
+        VERBATIM
+    )
+endif()
