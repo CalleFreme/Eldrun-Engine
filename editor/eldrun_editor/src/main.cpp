@@ -1,7 +1,10 @@
-#include <iostream>
+#include "eldrun/core/log.hpp"
+#include "eldrun/platform/application.hpp"
 
 int main()
 {
-    std::cout << "Eldrun Editor starting...\n";
-    return 0;
+    eldrun::core::log_info("Starting Eldrun Editor...");
+
+    eldrun::platform::Application app;
+    return app.run();
 }
