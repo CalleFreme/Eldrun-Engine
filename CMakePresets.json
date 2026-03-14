@@ -1,0 +1,153 @@
+{
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "cacheVariables": {
+        "CMAKE_CXX_EXTENSIONS": "OFF",
+        "ELDRUN_BUILD_GAMES": "ON",
+        "ELDRUN_BUILD_EDITOR": "ON",
+        "ELDRUN_BUILD_TESTS": "ON",
+        "ELDRUN_ENABLE_INSTALL": "OFF",
+        "ELDRUN_WARNINGS_AS_ERRORS": "OFF",
+        "ELDRUN_USE_SYSTEM_SDL": "OFF",
+        "ELDRUN_ENABLE_SDL": "ON",
+        "ELDRUN_ENABLE_BGFX": "OFF"
+      }
+    },
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "inherits": "base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "cacheVariables": {
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+      }
+    },
+    {
+      "name": "linux-base",
+      "hidden": true,
+      "inherits": "base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}"
+      }
+    },
+    {
+      "name": "windows-vs2022",
+      "hidden": true,
+      "inherits": "windows-base",
+      "generator": "Visual Studio 17 2022",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      }
+    },
+    {
+      "name": "windows-vs2022-debug",
+      "inherits": "windows-vs2022"
+    },
+    {
+      "name": "windows-vs2022-release",
+      "inherits": "windows-vs2022"
+    },
+    {
+      "name": "windows-ninja-debug",
+      "inherits": "windows-base",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "windows-ninja-release",
+      "inherits": "windows-base",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "linux-ninja-debug",
+      "inherits": "linux-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "linux-ninja-release",
+      "inherits": "linux-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "windows-vs2022-debug",
+      "configurePreset": "windows-vs2022-debug",
+      "configuration": "Debug"
+    },
+    {
+      "name": "windows-vs2022-release",
+      "configurePreset": "windows-vs2022-release",
+      "configuration": "Release"
+    },
+    {
+      "name": "windows-ninja-debug",
+      "configurePreset": "windows-ninja-debug"
+    },
+    {
+      "name": "windows-ninja-release",
+      "configurePreset": "windows-ninja-release"
+    },
+    {
+      "name": "linux-ninja-debug",
+      "configurePreset": "linux-ninja-debug"
+    },
+    {
+      "name": "linux-ninja-release",
+      "configurePreset": "linux-ninja-release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "windows-vs2022-debug",
+      "configurePreset": "windows-vs2022-debug",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "windows-ninja-debug",
+      "configurePreset": "windows-ninja-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "linux-ninja-debug",
+      "configurePreset": "linux-ninja-debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    }
+  ]
+}
