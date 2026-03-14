@@ -1,5 +1,16 @@
 # Eldrun-Engine
 
+## Getting Started
+
+First, make sure you have [CMake](https://cmake.org/) installed.
+
+The following commands will build Eldrun on Windows:
+
+```bash
+cmake --preset windows-vs2022-debug
+cmake --build --preset windows-vs2022-debug
+```
+
 ## Important files
 
 ### CmakeLists.txt
@@ -29,6 +40,9 @@ Typical contents:
 * windows-ninja-release
 * linux-ninja-debug
 * linux-ninja-release
+
+ELDRUN_USE_SYSTEM_SDL=OFF for now, since we have a vendored SDL3.
+ELDRUN_ENABLE_INSTALL=OFF for now, since we have a vendored SDL3.
 
 ### editorconfig.json
 
