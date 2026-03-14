@@ -51,4 +51,3 @@ Shared editing and formatting conventions. Purpose:
 * makes the editor's formatting consistent
 * makes the editor's syntax highlighting consistent
 * keeps whitespace, line endings, indentation, and related text-formatting rules consistent across editors.
-
