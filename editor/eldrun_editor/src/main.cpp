@@ -1,3 +1,5 @@
+#include <SDL3/SDL_main.h>
+
 #include "eldrun/core/log.hpp"
 #include "eldrun/platform/application.hpp"
 
