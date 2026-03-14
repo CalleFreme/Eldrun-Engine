@@ -10,6 +10,10 @@ int main(int argc, char* argv[])
 
     eldrun::core::log_info("Starting Eldrun Editor...");
 
-    eldrun::platform::Application app;
+    eldrun::platform::Application app({
+        .title = "Eldrun Editor",
+        .width = 1600,
+        .height = 900
+    });
     return app.run();
 }

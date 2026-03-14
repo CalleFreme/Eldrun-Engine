@@ -48,7 +48,7 @@ Eldrun is being built to support:
 - **future editor and multiplayer support**
 - **good developer experience across environments**
 
-Eldrun is **not** intended to be a universal engine for every possible genre.
+Eldrun is **not** intended to be a universal engine for every possible genre, yet.
 
 ---
 
@@ -87,9 +87,11 @@ Eldrun-Engine/
 ### Key directories
 
 #### `engine/`
+
 Reusable engine code.
 
 Examples:
+
 - core utilities
 - platform/bootstrap code
 - rendering systems
@@ -97,27 +99,35 @@ Examples:
 - future networking support
 
 #### `games/`
+
 Game projects built on top of Eldrun.
 
 Right now this includes:
+
 - `sandbox/` — the first runtime testbed for the engine
 
 #### `editor/`
+
 The future editor application.
 
 Right now this contains:
+
 - `eldrun_editor/` — an early executable shell running on the same platform layer as the sandbox
 
 #### `external/`
+
 Vendored third-party dependencies.
 
 Right now:
+
 - `SDL/` — vendored SDL3 source
 
 #### `docs/`
+
 Architecture, bootstrap, and design documentation.
 
 #### `cmake/`
+
 CMake helper modules and project-specific build logic.
 
 ---

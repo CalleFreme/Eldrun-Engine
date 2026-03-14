@@ -26,19 +26,4 @@ namespace eldrun::core
     {
         std::cout << "[Eldrun][" << to_string(level) << "] " << message << '\n';
     }
-
-    void log_info(const std::string_view message)
-    {
-        log(LogLevel::Info, message);
-    }
-
-    void log_warning(const std::string_view message)
-    {
-        log(LogLevel::Warning, message);
-    }
-
-    void log_error(const std::string_view message)
-    {
-        log(LogLevel::Error, message);
-    }
 }

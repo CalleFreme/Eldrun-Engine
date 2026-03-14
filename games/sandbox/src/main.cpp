@@ -12,6 +12,11 @@ int main(int argc, char* argv[])
     eldrun::core::log_info("Starting Eldrun Sandbox...");
     eldrun::core::log_info(eldrun::core::version_string);
 
-    eldrun::platform::Application app;
+    eldrun::platform::Application app({
+        .title = "Eldrun Sandbox",
+        .width = 1280,
+        .height = 720
+    });
+
     return app.run();
 }
