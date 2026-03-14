@@ -47,7 +47,7 @@ Typical contents:
 * render debug utilities
 * bgfx integration layer
 
-This folder shoudl represent Eldrun's rendering model, not raw backend code springled through the engine.
+This folder should represent Eldrun's rendering model, not raw backend code springled through the engine.
 
 ## engine/assets/
 
