@@ -1,5 +1,6 @@
 add_executable(eldrun_sandbox
     src/main.cpp
+    src/sandbox_app_state.cpp
 )
 
 add_executable(Eldrun::sandbox ALIAS eldrun_sandbox)

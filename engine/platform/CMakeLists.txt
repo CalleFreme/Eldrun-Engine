@@ -14,6 +14,9 @@ target_include_directories(eldrun_platform
 target_link_libraries(eldrun_platform
     PUBLIC
         eldrun_core
+        eldrun_render
+        eldrun_runtime
+    PRIVATE
         eldrun_warnings
         ${ELDRUN_SDL_TARGET}
 )

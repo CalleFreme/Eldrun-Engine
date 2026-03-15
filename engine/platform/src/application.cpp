@@ -14,8 +14,8 @@ namespace eldrun::platform
         constexpr std::uint64_t nanoseconds_per_second = 1'000'000'000ull;
     }
 
-    Application::Application(ApplicationConfig config)
-        : m_config(std::move(config))
+    Application::Application(ApplicationConfig config, std::unique_ptr<eldrun::runtime::IAppState> state)
+        : m_config(std::move(config)), m_state(std::move(state)) // Application should take ownership of the config and state
     {
     }
 
@@ -23,7 +23,7 @@ namespace eldrun::platform
     {
         shutdown();
     }
-
+    
     int Application::run()
     {
         if (!initialize())
@@ -32,7 +32,7 @@ namespace eldrun::platform
             return 1;
         }
 
-        std::uint64_t previous_counter = SDL_GetTicksNS();
+        std::uint64_t previous_counter = SDL_GetTicksNS(); // Get the initial timestamp for the main loop
 
         while (should_keep_running())
         {
@@ -44,10 +44,8 @@ namespace eldrun::platform
             previous_counter = current_counter;
 
             process_events();
-            tick(delta_seconds);
+            tick(eldrun::core::Timestep(delta_seconds));
             render_frame();
-
-            SDL_Delay(1);
         }
 
         return 0;
@@ -55,6 +53,12 @@ namespace eldrun::platform
 
     bool Application::initialize()
     {
+        if (m_state == nullptr)
+        {
+            eldrun::core::log_error("Application initialization failed: no app state was provided.");
+            return false;
+        }
+
         if (!SDL_Init(SDL_INIT_VIDEO))
         {
             eldrun::core::log_error("SDL_Init failed: {}", SDL_GetError());
@@ -70,7 +74,6 @@ namespace eldrun::platform
 
         if (m_window == nullptr)
         {
-            // SDL_GetError returns "too many arguments in function call" error because of the way we're using it with fmt-style formatting.
             eldrun::core::log_error("SDL_CreateWindow failed: {}", SDL_GetError());
             SDL_Quit();
             return false;
@@ -95,6 +98,8 @@ namespace eldrun::platform
             return false;
         }
 
+        m_state->on_enter(); // on_enter tells the app state that we're starting the application, so it can perform any necessary setup.
+
         m_is_running = true;
 
         eldrun::core::log_info(
@@ -109,6 +114,11 @@ namespace eldrun::platform
 
     void Application::shutdown()
     {
+        if (m_state != nullptr)
+        {
+            m_state->on_exit(); // on_exit tells the app state that we're shutting down the application, so it can perform any necessary cleanup.
+        }
+
         m_renderer.shutdown();
 
         if (m_window != nullptr)
@@ -149,15 +159,23 @@ namespace eldrun::platform
         }
     }
 
-    void Application::tick(double delta_seconds)
+    void Application::tick(eldrun::core::Timestep delta_time)
     {
-        (void)delta_seconds;
-        // Future: input update, world update, fixed-step simulation, etc.
+        if (m_state != nullptr)
+        {
+            m_state->update(delta_time);
+        }
     }
 
     void Application::render_frame()
     {
         m_renderer.begin_frame();
+
+        if (m_state != nullptr)
+        {
+            m_state->render(m_renderer);
+        }
+        
         m_renderer.end_frame();
     }
 

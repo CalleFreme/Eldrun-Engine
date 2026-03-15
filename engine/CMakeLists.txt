@@ -5,8 +5,8 @@ eldrun_apply_warnings(eldrun_warnings)
 
 add_subdirectory(core)
 add_subdirectory(render)
+add_subdirectory(runtime)
 add_subdirectory(platform)
-
 
 # Placeholder interface modules for systems not yet implemented
 eldrun_add_interface_module(eldrun_assets    assets    "${CMAKE_CURRENT_SOURCE_DIR}/assets")
@@ -21,6 +21,7 @@ target_link_libraries(eldrun_platform
     PUBLIC
         eldrun_core
         eldrun_render
+        eldrun_runtime
 )
 target_link_libraries(eldrun_assets   INTERFACE eldrun_core)
 target_link_libraries(eldrun_world    INTERFACE eldrun_core)
@@ -36,6 +37,7 @@ target_link_libraries(eldrun_engine INTERFACE
     eldrun_core
     eldrun_platform
     eldrun_render
+    eldrun_runtime
     eldrun_assets
     eldrun_world
     eldrun_gameplay

@@ -16,10 +16,13 @@ Application class will likely be split into:
 
 #pragma once
 
+#include "eldrun/core/timestep.hpp"
 #include "eldrun/render/renderer.hpp"
+#include "eldrun/runtime/app_state.hpp"
 
 #include <cstdint>
 #include <string>
+#include <memory>
 
 struct SDL_Window;
 
@@ -35,7 +38,9 @@ namespace eldrun::platform
     class Application
     {
     public:
-        explicit Application(ApplicationConfig config = {});
+        // The constructor is marked explicit to prevent implicit conversions from ApplicationConfig to Application,
+        // which could lead to unintended behavior if someone accidentally passes an ApplicationConfig where an Application is expected.
+        explicit Application(ApplicationConfig config, std::unique_ptr<eldrun::runtime::IAppState> state);
         ~Application();
 
         // Non-copyable
@@ -53,13 +58,14 @@ namespace eldrun::platform
         void shutdown();
 
         void process_events();
-        void tick(double delta_seconds);
+        void tick(eldrun::core::Timestep delta_time);
         void render_frame();
 
         [[nodiscard]] bool should_keep_running() const noexcept; // noexcept makes it clear this function won't throw exceptions
 
     private:
         ApplicationConfig m_config {};
+        std::unique_ptr<eldrun::runtime::IAppState> m_state;
         SDL_Window* m_window { nullptr };
         bool m_is_running { false };
         eldrun::render::Renderer m_renderer {};

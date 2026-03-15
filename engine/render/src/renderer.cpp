@@ -11,6 +11,8 @@ namespace eldrun::render
         shutdown();
     }
 
+    // We need to define the move constructor and move assignment operator because we have a raw pointer member (SDL_Renderer*).
+    // This will be called when a Renderer is moved, for example when it's stored in a std::vector and the vector resizes.
     Renderer::Renderer(Renderer&& other) noexcept
         : m_renderer(other.m_renderer)
         , m_clear_color(other.m_clear_color)
@@ -18,6 +20,7 @@ namespace eldrun::render
         other.m_renderer = nullptr;
     }
 
+    // We also need to define the move assignment operator for the same reason as above, in case an existing Renderer is assigned a new Renderer via move semantics.
     Renderer& Renderer::operator=(Renderer&& other) noexcept
     {
         if (this != &other)
@@ -107,4 +110,16 @@ namespace eldrun::render
     {
         m_clear_color = color;
     }
+
+	void Renderer::draw_text(const char* text, int x, int y)
+        {
+        // TO DO: Implement text rendering using SDL_ttf or a similar library.
+        // For now, this is just a placeholder to demonstrate the API.
+        // Log the text that would be drawn for demonstration purposes.
+        eldrun::core::log_info("Drawing text at ({}, {}): {}", x, y, text);
+
+            
+
+
+	}
 }

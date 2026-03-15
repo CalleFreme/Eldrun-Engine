@@ -42,6 +42,8 @@ namespace eldrun::render
 
         void set_clear_color(ClearColor color) noexcept;
 
+		void draw_text(const char* text, int x, int y);
+
     private:
         SDL_Renderer* m_renderer { nullptr };
         ClearColor m_clear_color {};
