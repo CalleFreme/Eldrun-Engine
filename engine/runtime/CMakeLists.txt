@@ -14,7 +14,6 @@ target_include_directories(eldrun_runtime
 target_link_libraries(eldrun_runtime
     PUBLIC
         eldrun_core
-        eldrun_render
     PRIVATE
         eldrun_warnings
 )

@@ -1,6 +1,6 @@
 add_library(eldrun_render
     src/renderer.cpp
-)
+ "src/renderer_backend_sdl.cpp" "src/renderer_backend_bgfx.cpp")
 
 add_library(Eldrun::render ALIAS eldrun_render)
 

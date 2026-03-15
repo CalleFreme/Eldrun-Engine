@@ -2,5 +2,4 @@
 
 namespace eldrun::runtime
 {
-    IAppState::~IAppState() = default;
 }

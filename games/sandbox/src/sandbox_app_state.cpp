@@ -1,7 +1,7 @@
 #include "sandbox_app_state.hpp"
 
 #include "eldrun/core/log.hpp"
-#include "eldrun/render/renderer.hpp"
+#include "eldrun/render/render_frame_context.hpp"
 
 /*
 * Purpose of this app state:
@@ -42,29 +42,16 @@ namespace eldrun::sandbox
         */
     }
 
-    void SandboxAppState::render(eldrun::render::Renderer& renderer)
+    void SandboxAppState::render(eldrun::runtime::IFrameContext& frame)
     {
-        /* 
-        * Render logic for the sandbox app state goes here. This could include things like:
-        * - Drawing game objects
-        * - Rendering debug information
-        * - Displaying UI elements
-        * - Other game-specific rendering
-        */
-		// Change the clear color over time to demonstrate that the app state can interact with the renderer.
+        auto& render_frame = static_cast<eldrun::render::RenderFrameContext&>(frame);
+
 		eldrun::render::ClearColor color;
 		color.r = static_cast<std::uint8_t>((std::sin(m_elapsed_time) + 1.0f) * 127.5f); // Oscillates between 0 and 255 over time.
 		color.g = static_cast<std::uint8_t>((std::cos(m_elapsed_time) + 1.0f) * 127.5f); // Oscillates between 0 and 255 over time, but out of phase with red.
 		color.b = 128; // Constant blue value.
 		color.a = 255; // Fully opaque.
-		renderer.set_clear_color(color);
 
-		// Show debug title "Sandbox app" in top-left corner.
-        // renderer.draw_text("Sandbox app", 10, 10);
-
-		// TO DO: Add more sandbox-specific rendering here, such as drawing shapes, sprites, or other debug information.
-
-        // No sandbox-specific rendering yet.
-        // The engine renderer still clears/presents the frame.
+		render_frame.set_clear_color(color);
     }
 }

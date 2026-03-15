@@ -111,15 +111,7 @@ namespace eldrun::render
         m_clear_color = color;
     }
 
-	void Renderer::draw_text(const char* text, int x, int y)
-        {
-        // TO DO: Implement text rendering using SDL_ttf or a similar library.
-        // For now, this is just a placeholder to demonstrate the API.
-        // Log the text that would be drawn for demonstration purposes.
-        eldrun::core::log_info("Drawing text at ({}, {}): {}", x, y, text);
-
-            
-
-
+	void Renderer::set_viewport(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height)
+    {
 	}
 }

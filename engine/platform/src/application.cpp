@@ -1,6 +1,7 @@
 #include "eldrun/platform/application.hpp"
 
 #include "eldrun/core/log.hpp"
+#include "eldrun/render/render_frame_context.hpp"
 
 #include <SDL3/SDL.h>
 
@@ -173,7 +174,8 @@ namespace eldrun::platform
 
         if (m_state != nullptr)
         {
-            m_state->render(m_renderer);
+			eldrun::render::RenderFrameContext frame_context(m_renderer);
+            m_state->render(frame_context);
         }
         
         m_renderer.end_frame();

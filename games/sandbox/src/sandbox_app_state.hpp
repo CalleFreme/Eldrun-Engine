@@ -11,7 +11,7 @@ namespace eldrun::sandbox
         void on_exit() override;
 
         void update(eldrun::core::Timestep delta_time) override;
-        void render(eldrun::render::Renderer& renderer) override;
+        void render(eldrun::runtime::IFrameContext& frame) override;
 
     private:
         double m_elapsed_time { 0.0 };

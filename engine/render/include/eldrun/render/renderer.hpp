@@ -42,7 +42,7 @@ namespace eldrun::render
 
         void set_clear_color(ClearColor color) noexcept;
 
-		void draw_text(const char* text, int x, int y);
+		void set_viewport(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height);
 
     private:
         SDL_Renderer* m_renderer { nullptr };

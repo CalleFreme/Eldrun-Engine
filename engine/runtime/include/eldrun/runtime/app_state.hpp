@@ -1,6 +1,7 @@
 #pragma once
 
 #include "eldrun/core/timestep.hpp"
+#include "eldrun/runtime/frame_context.hpp"
 
 namespace eldrun::render
 {
@@ -18,6 +19,6 @@ namespace eldrun::runtime
         virtual void on_exit() {}
 
         virtual void update(eldrun::core::Timestep delta_time) = 0;
-        virtual void render(eldrun::render::Renderer& renderer) = 0;
+        virtual void render(IFrameContext& frame) = 0;
     };
 }

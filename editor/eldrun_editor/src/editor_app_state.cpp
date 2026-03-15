@@ -2,6 +2,7 @@
 
 #include "eldrun/core/log.hpp"
 #include "eldrun/render/renderer.hpp"
+#include "eldrun/render/render_frame_context.hpp"
 
 namespace eldrun::editor
 {
@@ -26,21 +27,16 @@ namespace eldrun::editor
 		* - Other editor-specific logic
 		*/
 	}
-	void EditorAppState::render(eldrun::render::Renderer& renderer)
+	void EditorAppState::render(eldrun::runtime::IFrameContext& frame)
 	{
-		/* 
-		* Render logic for the editor app state goes here. This could include things like:
-		* - Drawing editor-specific game objects or entities
-		* - Rendering editor UI elements
-		* - Displaying debug information specific to the editor
-		* - Other editor-specific rendering
-		*/
-		// Change the clear color over time to demonstrate that the app state can interact with the renderer.
+		auto& render_frame = static_cast<eldrun::render::RenderFrameContext&>(frame);
+
 		eldrun::render::ClearColor color;
 		color.r = static_cast<std::uint8_t>((std::sin(m_elapsed_time) + 1.0f) * 127.5f); // Oscillates between 0 and 255 over time.
 		color.b = static_cast<std::uint8_t>((std::cos(m_elapsed_time) + 1.0f) * 127.5f); // Oscillates between 0 and 255 over time, but out of phase with red.
 		color.g = 128; // Constant green value.
 		color.a = 255; // Fully opaque.
-		renderer.set_clear_color(color);
+
+		render_frame.set_clear_color(color);
 	}
 }
