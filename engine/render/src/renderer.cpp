@@ -1,117 +1,98 @@
 #include "eldrun/render/renderer.hpp"
-
+#include "renderer_backend.hpp"
 #include "eldrun/core/log.hpp"
-
+#include <memory>
 #include <SDL3/SDL.h>
 
 namespace eldrun::render
 {
+    struct Renderer::Impl
+    {
+        std::unique_ptr<IRendererBackend> backend;
+        ClearColor clear_color{ 30, 34, 42, 255 };
+		Viewport viewport {};
+	};
+
+    Renderer::Renderer()
+        : m_impl(std::make_unique<Impl>())
+    {
+        m_impl->backend = create_renderer_backend();
+	}
+
     Renderer::~Renderer()
     {
         shutdown();
     }
 
-    // We need to define the move constructor and move assignment operator because we have a raw pointer member (SDL_Renderer*).
-    // This will be called when a Renderer is moved, for example when it's stored in a std::vector and the vector resizes.
-    Renderer::Renderer(Renderer&& other) noexcept
-        : m_renderer(other.m_renderer)
-        , m_clear_color(other.m_clear_color)
-    {
-        other.m_renderer = nullptr;
-    }
-
-    // We also need to define the move assignment operator for the same reason as above, in case an existing Renderer is assigned a new Renderer via move semantics.
-    Renderer& Renderer::operator=(Renderer&& other) noexcept
-    {
-        if (this != &other)
-        {
-            shutdown();
-
-            m_renderer = other.m_renderer;
-            m_clear_color = other.m_clear_color;
-
-            other.m_renderer = nullptr;
-        }
-
-        return *this;
-    }
+    Renderer::Renderer(Renderer&& other) noexcept = default;
+    Renderer& Renderer::operator=(Renderer&& other) noexcept = default;
 
     bool Renderer::initialize(SDL_Window* window, const RendererConfig& config)
     {
-        if (m_renderer != nullptr)
+        m_impl->clear_color = config.clear_color;
+
+        int width = 0;
+        int height = 0;
+        if (window != nullptr)
         {
-            eldrun::core::log_warning("Renderer already initialized.");
-            return true;
+            SDL_GetWindowSizeInPixels(window, &width, &height);
+            m_impl->viewport.width = static_cast<std::uint32_t>(width);
+            m_impl->viewport.height = static_cast<std::uint32_t>(height);
         }
 
-        if (window == nullptr)
-        {
-            eldrun::core::log_error("Renderer initialization failed: window was null.");
-            return false;
-        }
-
-        m_renderer = SDL_CreateRenderer(window, nullptr);
-        if (m_renderer == nullptr)
-        {
-            eldrun::core::log_error("SDL_CreateRenderer failed: {}", SDL_GetError());
-            return false;
-        }
-
-        m_clear_color = config.clear_color;
-
-        eldrun::core::log_info("Renderer initialized successfully.");
-        return true;
+        return m_impl->backend->initialize(window, config, m_impl->viewport);
     }
 
     void Renderer::shutdown()
     {
-        if (m_renderer != nullptr)
+        if (m_impl && m_impl->backend)
         {
-            SDL_DestroyRenderer(m_renderer);
-            m_renderer = nullptr;
-            eldrun::core::log_info("Renderer shut down.");
+            m_impl->backend->shutdown();
         }
     }
 
     void Renderer::begin_frame()
     {
-        if (m_renderer == nullptr)
+        if (m_impl && m_impl->backend)
         {
-            return;
+            m_impl->backend->begin_frame(m_impl->clear_color, m_impl->viewport);
         }
-
-        SDL_SetRenderDrawColor(
-            m_renderer,
-            m_clear_color.r,
-            m_clear_color.g,
-            m_clear_color.b,
-            m_clear_color.a
-        );
-
-        SDL_RenderClear(m_renderer);
     }
 
     void Renderer::end_frame()
     {
-        if (m_renderer == nullptr)
+        if (m_impl && m_impl->backend)
         {
-            return;
+            m_impl->backend->end_frame();
         }
-
-        SDL_RenderPresent(m_renderer);
     }
 
     bool Renderer::is_initialized() const noexcept
     {
-        return m_renderer != nullptr;
+        return m_impl && m_impl->backend && m_impl->backend->is_initialized();
     }
 
     void Renderer::set_clear_color(ClearColor color) noexcept
     {
-        m_clear_color = color;
+        m_impl->clear_color = color;
     }
 
-	void Renderer::set_viewport(std::int32_t x, std::int32_t y, std::int32_t width, std::int32_t height)
+    ClearColor Renderer::clear_color() const noexcept
     {
+        return m_impl->clear_color;
+    }
+
+	void Renderer::set_viewport(Viewport viewport)
+    {
+        m_impl->viewport = viewport;
+        if (m_impl && m_impl->backend)
+        {
+            m_impl->backend->set_viewport(viewport);
+        }
 	}
+
+    Viewport Renderer::viewport() const noexcept
+    {
+        return m_impl->viewport;
+    }
 }
