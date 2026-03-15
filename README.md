@@ -70,6 +70,7 @@ Eldrun-Engine/
 │  ├─ core/
 │  ├─ platform/
 │  ├─ render/
+│  ├─ runtime/
 │  ├─ assets/
 │  ├─ world/
 │  ├─ gameplay/
@@ -398,14 +399,9 @@ This is intentional: the goal is to keep engine systems modular and reusable, wh
 
 The next major milestones are:
 
-- remove temporary startup diagnostics
-- improve the application loop structure
-- add frame timing
-- begin renderer bootstrap
-- integrate the first deliberate rendering path
+- current state: shared runtime shell + renderer bootstrap
+- next state: bgfx backend transition + first 3D scene
 - start building toward a true gameplay prototype
-
-After that, Eldrun will move from “runnable bootstrap” to “early engine runtime.”
 
 ---
 

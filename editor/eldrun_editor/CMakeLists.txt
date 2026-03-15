@@ -1,8 +1,13 @@
 add_executable(eldrun_editor
     src/main.cpp
-)
+    src/editor_app_state.cpp)
 
 add_executable(Eldrun::editor ALIAS eldrun_editor)
+
+target_include_directories(eldrun_editor
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 target_link_libraries(eldrun_editor
     PRIVATE

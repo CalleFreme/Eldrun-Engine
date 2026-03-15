@@ -60,7 +60,7 @@ namespace eldrun::sandbox
 		renderer.set_clear_color(color);
 
 		// Show debug title "Sandbox app" in top-left corner.
-        renderer.draw_text("Sandbox app", 10, 10);
+        // renderer.draw_text("Sandbox app", 10, 10);
 
 		// TO DO: Add more sandbox-specific rendering here, such as drawing shapes, sprites, or other debug information.
 
