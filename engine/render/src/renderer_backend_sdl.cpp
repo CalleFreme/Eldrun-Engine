@@ -1,8 +1,8 @@
 #include "renderer_backend.hpp"
-
 #include "eldrun/core/log.hpp"
-
 #include <SDL3/SDL.h>
+
+#if !defined(ELDRUN_ENABLE_BGFX)
 
 namespace eldrun::render
 {
@@ -92,3 +92,5 @@ namespace eldrun::render
         return std::make_unique<SdlRendererBackend>();
     }
 }
+
+#endif

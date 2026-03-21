@@ -154,6 +154,18 @@ namespace eldrun::platform
                 }
                 break;
 
+            case SDL_EVENT_WINDOW_RESIZED:
+            {
+				// Could use SDL_GetWindowSizeInPixels here for high-DPI displays, but the event already provides the new size in data1 and data2, so we can use those directly.
+				const auto width = static_cast<std::uint32_t>(event.window.data1);
+				const auto height = static_cast<std::uint32_t>(event.window.data2);
+                m_renderer.set_viewport({ width, height });
+                // SDL exposes native-window and display handles through
+                // SDL_GetWindowProperties, including platform-specific properties.
+                // This mechanism will be used for bgfx platform data next.
+				break;
+            }
+
             default:
                 break;
             }

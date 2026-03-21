@@ -82,7 +82,7 @@ namespace eldrun::render
         return m_impl->clear_color;
     }
 
-	void Renderer::set_viewport(Viewport viewport)
+	void Renderer::set_viewport(Viewport viewport) noexcept
     {
         m_impl->viewport = viewport;
         if (m_impl && m_impl->backend)

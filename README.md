@@ -62,22 +62,27 @@ Eldrun-Engine/
 ├─ LICENSE
 ├─ .gitignore
 ├─ .editorconfig
-├─ docs/
 ├─ cmake/
+├─ docs/
+├─ editor/
+│  └─ eldrun_editor/
 ├─ external/
+│  ├─ bgfx/
+│  ├─ bimg/
+│  ├─ bx/
+│  ├─ imgui/
 │  └─ SDL/
 ├─ engine/
+│  ├─ assets/
 │  ├─ core/
+│  ├─ gameplay/
+│  └─ net/
 │  ├─ platform/
 │  ├─ render/
 │  ├─ runtime/
-│  ├─ assets/
-│  ├─ world/
-│  ├─ gameplay/
+│  ├─ thirdparty_bridge/
 │  ├─ tools/
-│  └─ net/
-├─ editor/
-│  └─ eldrun_editor/
+│  ├─ world/
 ├─ games/
 │  └─ sandbox/
 ├─ tests/
@@ -489,5 +494,3 @@ Eldrun is early, and currently, it now has:
 - a working runtime bootstrap
 - runnable executables
 - a clear architectural direction
-
-That makes this the right time to continue building outward into rendering, world systems, and actual game prototyping.

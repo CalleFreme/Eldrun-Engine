@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <memory>
 
 struct SDL_Window;
 
@@ -29,7 +30,7 @@ namespace eldrun::render
     class Renderer
     {
     public:
-        Renderer() = default;
+        Renderer();
         ~Renderer();
 
         Renderer(const Renderer&) = delete;
